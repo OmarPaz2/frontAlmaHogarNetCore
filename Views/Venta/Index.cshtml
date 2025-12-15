@@ -1,0 +1,119 @@
+﻿@model IEnumerable<AlmaHogarFront.Models.Producto>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group" style="max-width: 400px;">
+        <input type="text"
+               name="nombre"
+               class="form-control"
+               placeholder="Buscar producto..."
+               value="@ViewData["CurrentFilter"]" />
+
+        <button type="submit" class="btn btn-primary">
+            🔍 Buscar
+        </button>
+    </div>
+</form>
+@if (Model == null || Model.Count() == 0)
+{
+    <div class="alert alert-info" role="alert">
+        No se encontraron productos.
+    </div>
+}else{
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stock)
+            </th>
+            <th>
+                Cantidad
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stock)
+            </td>
+              
+             <td>
+                        <form asp-action="Agregar" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="codigo" value="@item.codigo" />
+                            <input type="hidden" name="nombre" value="@item.nombre" />
+                            <input type="hidden" name="precio" value="@item.precio" />
+
+                            <input type="number"
+                                   name="cantidad"
+                                   class="form-control text-center"
+                                   style="max-width: 90px;"
+                                   min="1"
+                                   max="@item.stock"
+                                   value="1" />
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Guardar
+                            </button>
+                        </form>
+             </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
+   
+}
+
+@if (ViewBag.ListaProd != null && ((List<ProductoDTO>)ViewBag.ListaProd).Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <h5>Productos agregados</h5>
+            @foreach (var prodDto in ViewBag.ListaProd as List<AlmaHogarFront.Models.ProductoDTO>)
+            {
+                <tr>
+                    <td>@prodDto.nombre</td>
+                    <td>@prodDto.cantidad</td>
+                    <td>@prodDto.precio</td>
+                    <td>@(prodDto.cantidad* prodDto.precio)</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                <td><strong>@ViewBag.Total</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+}

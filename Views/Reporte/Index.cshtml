@@ -1,0 +1,185 @@
+﻿@model AlmaHogarFront.Models.ReporteIndexVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center my-4">Reportes</h1>
+
+<form asp-action="Index" method="get">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <button type="submit"
+                    name="eleccion"
+                    value="masVendidos"
+                    class="card text-center w-100 h-100 shadow-sm 
+                    @(Model?.eleccion == "masVendidos" ? "border border-danger" : "border-0")">
+
+                <div class="card-body">
+                    <i class="bi bi-graph-up-arrow text-danger fs-1"></i>
+                    <h5 class="mt-3">Productos más vendidos</h5>
+                    <p class="text-muted small mb-0">
+                        Top de productos con mayor rotación
+                    </p>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button type="submit"
+                    name="eleccion"
+                    value="menosVendidos"
+                    class="card text-center w-100 h-100 shadow-sm
+                    @(Model?.eleccion == "menosVendidos" ? "border border-danger" : "border-0")">
+
+                <div class="card-body">
+                    <i class="bi bi-graph-down-arrow text-danger fs-1"></i>
+                    <h5 class="mt-3">Productos menos vendidos</h5>
+                    <p class="text-muted small mb-0">
+                        Productos con menor movimiento
+                    </p>
+                </div>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button type="submit"
+                    name="eleccion"
+                    value="ventasDia"
+                    class="card text-center w-100 h-100 shadow-sm
+                    @(Model?.eleccion == "ventasDia" ? "border border-danger" : "border-0")">
+
+                <div class="card-body">
+                    <i class="bi bi-calendar-check text-danger fs-1"></i>
+                    <h5 class="mt-3">Ventas de hoy</h5>
+                    <p class="text-muted small mb-0">
+                        Resumen del día
+                    </p>
+                </div>
+            </button>
+        </div>
+
+    </div>
+</form>
+
+@if(Model == null)
+{
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+        <h3 class="fw-semibold">Seleccione un filtro</h3>
+    </div>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+                @if(Model.productosVendidosMes != null)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.productosVendidosMes.First().id_producto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productosVendidosMes.First().nom_producto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.productosVendidosMes.First().total_vendido)
+                    </th>
+                    
+                }
+                else
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().id_venta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().fecha_venta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().dnicomprador)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().comprador)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().celular)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().correo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().id_user)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().nom_producto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().cantidad_detalle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.saleByDay.First().sub_total_detalle)
+                    </th>
+                    
+                }
+              
+        </tr>
+    </thead>
+    <tbody>
+            @if (Model.productosVendidosMes != null)
+            {
+                @foreach (var prod in Model.productosVendidosMes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => prod.id_producto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => prod.nom_producto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => prod.total_vendido)
+                        </td>             
+                    </tr>
+                }
+            }else{
+                @foreach (var sales in Model.saleByDay)
+                {
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => sales.id_venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sales.fecha_venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sales.dnicomprador)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.comprador)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.celular)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.correo)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.id_user)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.nom_producto)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.cantidad_detalle)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => sales.sub_total_detalle)
+            </td>
+
+        </tr>
+        }
+        }
+    </tbody>
+</table>
+}
