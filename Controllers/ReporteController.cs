@@ -24,7 +24,7 @@ namespace AlmaHogarFront.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-        }
+        }   
 
 
         public async Task<IActionResult> Index(string eleccion)
