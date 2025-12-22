@@ -1,6 +1,6 @@
 ﻿namespace AlmaHogarFront.Models
 {
-    public class ProductoDTO
+    public class ProductoVM
     {
         public int codigo { get; set; }
         public string? nombre { get; set; }

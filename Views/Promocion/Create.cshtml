@@ -1,0 +1,217 @@
+﻿@model AlmaHogarFront.DTO.PromoDetalleDtoVM
+@{
+    var productos = (IEnumerable<Producto>)ViewBag.Productos;
+    var listaProductosSelect = (List<int>)ViewBag.ProductosSeleccionados;
+}
+<h4>PromoDetalleDtoVM</h4>
+<hr />
+
+@using (Html.BeginForm("Create", "Promocion", FormMethod.Get))
+{
+    <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
+        @Html.TextBox("nombre", null, new
+        {
+            @class = "form-control w-25",
+        placeholder = "Buscar producto..."
+        })
+
+    <button type="submit" class="btn btn-primary">
+        Buscar
+    </button>
+</div>
+}
+
+@if (productos == null || !productos.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No ingreso un valor en el buscador o no hay productos
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                   codigo
+                </th>
+                <th>
+                   nombre
+                </th>
+
+                <th>
+                    precio
+                </th>
+                <th>
+                    stock
+                </th>
+                <th>
+                   categoria 
+                </th>
+                <th>Elegir para promocion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in productos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.codigo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.categoria.nombre)
+                    </td>
+                    <td>
+                        <input type="checkbox" id="seleccion" value=@item.codigo></input>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+<form asp-action="Create" method="get" onsubmit="cargarProductosSeleccionados(event)">
+    <input type="hidden" id="productosSeleccionados" name="productosSeleccionados" />
+    <button type="submit" class="btn btn-secondary mt-2">Mostrar seleccion en formulario</button>
+</form>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-orange text-white">
+                <h5 class="mb-0">Crear Promoción</h5>
+            </div>
+
+            <div class="card-body">
+                <form asp-action="Create">
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    
+                    <div class="mb-3">
+                        <label asp-for="titulo" class="form-label"></label>
+                        <input asp-for="titulo" class="form-control" />
+                        <span asp-validation-for="titulo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="descripcion" class="form-label"></label>
+                        <input asp-for="descripcion" class="form-control" />
+                        <span asp-validation-for="descripcion" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="descuento" class="form-label"></label>
+                        <input asp-for="descuento" class="form-control" />
+                        <span asp-validation-for="descuento" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="fecha_Inicio" class="form-label"></label>
+                            <input asp-for="fecha_Inicio" class="form-control" type="date" />
+                            <span asp-validation-for="fecha_Inicio" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="fecha_Fin" class="form-label"></label>
+                            <input asp-for="fecha_Fin" class="form-control" type="date" />
+                            <span asp-validation-for="fecha_Fin" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" asp-for="estado" />
+                        <label class="form-check-label">
+                            @Html.DisplayNameFor(model => model.estado)
+                        </label>
+                    </div>
+
+                 
+                    @if (listaProductosSelect != null)
+                    {
+                        <hr />
+                        <h6 class="text-secondary mb-3">Productos en promoción</h6>
+
+                        @for (int i = 0; i < listaProductosSelect.Count(); i++)
+                        {
+                            <div class="border rounded p-3 mb-3 bg-light">
+                                <div class="mb-2">
+                                    <label class="form-label">ID producto</label>
+                                    <input asp-for="Product_PromotionDTOs[i].idProducto"
+                                           value="@listaProductosSelect[i]"
+                                           class="form-control" readonly type="hidden" />
+                                    <input asp-for="Product_PromotionDTOs[i].idProducto"
+                                           value="@listaProductosSelect[i]"
+                                           class="form-control" readonly disabled />
+                                </div>
+
+                                <div>
+                                    <label class="form-label">Cantidad mínima de compra</label>
+                                    <input asp-for="Product_PromotionDTOs[i].cantidad_minima"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    <div class="d-grid mt-4">
+                        <input type="submit" value="Create" class="btn btn-orange btn-lg" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="btn btn-link">← Volver al listado</a>
+        </div>
+    </div>
+</div>
+
+<script>
+   
+    const btnCheck = document.querySelectorAll("#seleccion");
+
+    var selectedProducts = JSON.parse(sessionStorage.getItem('misProductos')) || [];
+
+     btnCheck.forEach(btn => {
+        btn.addEventListener("change", function () {
+            if (this.checked) {
+                selectedProducts.push(this.value);
+                sessionStorage.setItem('misProductos', JSON.stringify(selectedProducts));
+                console.log(selectedProducts);
+                alert("Producto Guardado : "+this.value);
+            } else {
+                  selectedProducts = selectedProducts.filter(producto => producto !== this.value);
+                  sessionStorage.setItem('misProductos', JSON.stringify(selectedProducts));
+                  console.log(selectedProducts);
+                alert("Producto Quitado : "+this.value);
+            }
+        })
+     });
+
+
+     function cargarProductosSeleccionados(e) {
+      
+        e.preventDefault();
+   
+         document.getElementById("productosSeleccionados").value =JSON.stringify(selectedProducts);
+      
+        e.target.submit();
+    }
+    
+
+      
+    
+</script>

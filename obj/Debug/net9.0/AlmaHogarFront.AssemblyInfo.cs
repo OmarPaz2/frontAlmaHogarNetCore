@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlmaHogarFront")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b47d0bf4c2ca18fefdbc1e63c9593aed50cbdc1")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlmaHogarFront")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlmaHogarFront")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

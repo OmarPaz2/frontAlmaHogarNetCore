@@ -239,13 +239,13 @@ D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.c
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.MvcApplicationPartsAssemblyInfo.cache
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.RazorAssemblyInfo.cache
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.RazorAssemblyInfo.cs
+D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.sourcelink.json
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\rjimswa.dswa.cache.json
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\scopedcss\bundle\AlmaHogarFront.styles.css
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\scopedcss\projectbundle\AlmaHogarFront.bundle.scp.css
-D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\compressed\8fcv3u42l9-b9sayid5wm.gz
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\compressed\6xok50ekmn-61n19gt1b8.gz
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\compressed\idryqs2b30-xtxxf3hu2r.gz
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\compressed\tui76qy1d5-bqjiyaj88i.gz
@@ -320,3 +320,4 @@ D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\refint\AlmaHogar
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.pdb
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\AlmaHogarFront.genruntimeconfig.cache
 D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\ref\AlmaHogarFront.dll
+D:\VISUAL STUDIO\AlmaHogarFront\AlmaHogarFront\obj\Debug\net9.0\compressed\8fcv3u42l9-bp2oagjtyj.gz

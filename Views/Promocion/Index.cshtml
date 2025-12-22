@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AlmaHogarFront.Models.Product_PromotionVM>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@using (Html.BeginForm("Index", "Promocion", FormMethod.Get))
+{
+    <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
+        @Html.TextBox("nombre", null, new
+        {
+            @class = "form-control w-25",
+        placeholder = "Buscar promocion por producto..."
+        })
+
+    <button type="submit" class="btn btn-primary">
+        Buscar
+    </button>
+</div>
+}
+@if(Model == null || !Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No se encontraron promociones o no realizo una busqueda.
+    </div>
+}
+else
+{
+    
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.id_detalle_promocion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Producto)
+            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nomProduct)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Promocion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cantidad_minima)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_detalle_promocion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Producto)
+            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nomProduct)
+                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Promocion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cantidad_minima)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}

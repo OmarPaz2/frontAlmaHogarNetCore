@@ -1,4 +1,9 @@
-﻿@model IEnumerable<AlmaHogarFront.Models.Producto>
+﻿@model AlmaHogarFront.DTO.VentaDTO
+
+    @{
+    var promociones = ViewBag.Promociones as List<AlmaHogarFront.DTO.PromocionDTO>;
+    var productosFiltrados = ViewBag.prodFiltrados as List<AlmaHogarFront.Models.Producto>;
+    }
 
 <form asp-action="Index" method="get" class="mb-3">
     <div class="input-group" style="max-width: 400px;">
@@ -8,12 +13,10 @@
                placeholder="Buscar producto..."
                value="@ViewData["CurrentFilter"]" />
 
-        <button type="submit" class="btn btn-primary">
-            🔍 Buscar
-        </button>
+        <button type="submit" class="btn btn-primary"> Buscar</button>
     </div>
 </form>
-@if (Model == null || Model.Count() == 0)
+@if (productosFiltrados == null || productosFiltrados.Count() == 0)
 {
     <div class="alert alert-info" role="alert">
         No se encontraron productos.
@@ -24,17 +27,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.codigo)
+              Codigo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                Nombre
             </th>
         
             <th>
-                @Html.DisplayNameFor(model => model.precio)
+                Precio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.stock)
+                Stock
             </th>
             <th>
                 Cantidad
@@ -43,7 +46,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+      @foreach (var item in productosFiltrados)
+      {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.codigo)
@@ -85,7 +89,44 @@
    
 }
 
-@if (ViewBag.ListaProd != null && ((List<ProductoDTO>)ViewBag.ListaProd).Count > 0)
+
+<h2>Registrar Venta</h2>
+
+<form asp-action="Create" method="post" class="mt-3">
+
+    <div class="form-group mb-2">
+        <label>Vendedor</label>
+        <input asp-for="idVendedor" class="form-control" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label>Nombre del comprador</label>
+        <input asp-for="nombreComprador" class="form-control" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label>DNI</label>
+        <input asp-for="dniComprador" class="form-control" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label>Correo</label>
+        <input asp-for="correoComprador" class="form-control" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label>Teléfono</label>
+        <input asp-for="telefonoComprador" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Guardar Venta
+    </button>
+
+</form>
+
+
+@if (ViewBag.ListaProd != null && ((List<AlmaHogarFront.Models.ProductoVM>)ViewBag.ListaProd).Count > 0)
 {
     <table class="table">
         <thead>
@@ -99,7 +140,7 @@
         <tbody>
 
             <h5>Productos agregados</h5>
-            @foreach (var prodDto in ViewBag.ListaProd as List<AlmaHogarFront.Models.ProductoDTO>)
+            @foreach (var prodDto in ViewBag.ListaProd as List<AlmaHogarFront.Models.ProductoVM>)
             {
                 <tr>
                     <td>@prodDto.nombre</td>
@@ -116,4 +157,41 @@
             </tr>
         </tfoot>
     </table>
+}
+
+@if (promociones != null && promociones.Count > 0)
+                {
+
+                    <h5>Promociones disponibles</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID Promocion</th>
+                                <th>Titulo</th>
+                                <th>Descripción</th>
+                                 <th>Descuento</th>
+                               <th>Monto a descontar</th>
+                               <th>fecha de inicio</th>
+                               <th>Fecha de fin</th>
+                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var promo in promociones)
+                            {
+                                <tr>
+                                    <td>@promo.id_Promocion</td>
+                                    <td>@promo.titulo</td>
+                                   <td>@promo.descripcion</td>
+                                   <td>@promo.descuento %</td>
+                                  <td>@promo.precioDescontado</td>
+                                   <td>@promo.fecha_Inicio</td>
+                                   <td>@promo.fecha_Fin</td>
+                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
 }
