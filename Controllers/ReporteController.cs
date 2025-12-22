@@ -62,6 +62,9 @@ namespace AlmaHogarFront.Controllers
 
         public async Task<IEnumerable<ProductosVendidosMes>> ProductosMasVendidos()
         {
+            var token = HttpContext.Session.GetString("JWToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _httpClient.GetAsync("api/Reporte/obtenerProductosMasVendidos");
 
             if (response.IsSuccessStatusCode)
@@ -77,6 +80,9 @@ namespace AlmaHogarFront.Controllers
         }
         public async Task<IEnumerable<ProductosVendidosMes>> ProductosMenosVendidos()
         {
+            var token = HttpContext.Session.GetString("JWToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _httpClient.GetAsync("api/Reporte/obtenerProductosMenosVendidos");
             if (response.IsSuccessStatusCode)
             {
@@ -89,6 +95,9 @@ namespace AlmaHogarFront.Controllers
 
         public async Task<IEnumerable<SalesByDay>> VentasPorDia()
         {
+            var token = HttpContext.Session.GetString("JWToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _httpClient.GetAsync("api/Reporte/obtenerVentasDia");
             if (response.IsSuccessStatusCode)
             {

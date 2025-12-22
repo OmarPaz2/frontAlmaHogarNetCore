@@ -31,6 +31,8 @@ namespace AlmaHogarFront.Controllers
             if(!string.IsNullOrEmpty(nombre))
             {
                 var netApiUrl = _httpClientFactory.CreateClient("DotNetApi");
+                var token = HttpContext.Session.GetString("JWToken");
+                netApiUrl.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 var response = await netApiUrl.GetAsync($"/api/Promocion/promocionesPorProducto/{nombre}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -46,6 +48,8 @@ namespace AlmaHogarFront.Controllers
             if(!string.IsNullOrEmpty(nombre))
             {
                 var springApiUrl = _httpClientFactory.CreateClient("SpringApi");
+                var token = HttpContext.Session.GetString("JWToken");
+                springApiUrl.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 var response = await springApiUrl.GetAsync($"/producto/buscarNombre/{nombre.Trim()}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -78,6 +82,8 @@ namespace AlmaHogarFront.Controllers
             {
                 var json = JsonConvert.SerializeObject(objeto);
                 var netApiUrl = _httpClientFactory.CreateClient("DotNetApi");
+                var token = HttpContext.Session.GetString("JWToken");
+                netApiUrl.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await netApiUrl.PostAsync("/api/Promocion/crearPromocion", content);
 

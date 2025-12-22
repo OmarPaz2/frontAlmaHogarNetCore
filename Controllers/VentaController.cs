@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using System;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -75,8 +76,11 @@ namespace AlmaHogarFront.Controllers
 
         public async Task<IEnumerable<PromocionDTO>> getPromocionByIdProduct(List<ProductoCompraDTO> productos)
         {
+           
             var json = JsonConvert.SerializeObject(productos);
             var netApiUrl = _httpClientFactory.CreateClient("DotNetApi");
+            var token = HttpContext.Session.GetString("JWToken");
+            netApiUrl.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await netApiUrl.PostAsync("/api/Promocion/obtenerPromocionesAplicadas", content);
 
@@ -132,7 +136,10 @@ namespace AlmaHogarFront.Controllers
 
             if (!string.IsNullOrEmpty(nombre))
             {
+               
                 var springApiUrl = _httpClientFactory.CreateClient("SpringApi");
+                var token = HttpContext.Session.GetString("JWToken");
+                springApiUrl.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 var response = await springApiUrl.GetAsync($"/producto/buscarNombre/{nombre.Trim()}");
 
                 if (response.IsSuccessStatusCode)
@@ -167,7 +174,9 @@ namespace AlmaHogarFront.Controllers
             
                 var json = JsonConvert.SerializeObject(ventaDTO);
                 var springUri = _httpClientFactory.CreateClient("SpringApi");
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var token = HttpContext.Session.GetString("JWToken");
+            springUri.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await springUri.PostAsync("/venta/registrar", content);
 
                 if (response.IsSuccessStatusCode)
