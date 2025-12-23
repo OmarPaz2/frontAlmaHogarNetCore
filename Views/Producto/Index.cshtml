@@ -136,42 +136,12 @@
                                                 <i class="bi bi-pencil"></i> Editar
                                             </a>
                                             <button type="button" 
-                                                    class="btn btn-outline-danger" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#deleteModal@producto.codigo"
+                                                    class="btn btn-outline-danger btn-delete" 
+                                                    data-id="@producto.codigo"
+                                                    data-nombre="@producto.nombre"
                                                     title="Eliminar">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
-                                        </div>
-
-                                        <!-- Modal de Confirmación de Eliminación -->
-                                        <div class="modal fade" id="deleteModal@producto.codigo" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header border-danger">
-                                                        <h5 class="modal-title">
-                                                            <i class="bi bi-exclamation-circle text-danger"></i>
-                                                            Confirmar eliminación
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>¿Estás seguro de que deseas eliminar el producto <strong>@producto.nombre</strong>?</p>
-                                                        <p class="text-danger small mb-0">
-                                                            <i class="bi bi-info-circle"></i> Esta acción no se puede deshacer.
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                            Cancelar
-                                                        </button>
-                                                        <a href="@Url.Action("Delete", "Producto", new { id = producto.codigo })" 
-                                                           class="btn btn-danger">
-                                                            <i class="bi bi-trash"></i> Eliminar
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -199,6 +169,64 @@
         </div>
     }
 </div>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="deleteForm" method="post" data-base-action="@Url.Action("Delete", "Producto")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" id="deleteProductId" value="" />
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="deleteMessage">¿Estás seguro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.btn-delete');
+        if (!btn) return;
+
+        e.preventDefault();
+        var id = btn.getAttribute('data-id');
+        var nombre = btn.getAttribute('data-nombre') || 'este producto';
+        var parsed = parseInt(id, 10);
+        if (isNaN(parsed)) {
+            console.error('ID de producto no válido:', id);
+            return;
+        }
+
+        // Rellenar campo oculto y mensaje
+        document.getElementById('deleteProductId').value = parsed;
+        document.getElementById('deleteMessage').textContent = `¿Estás seguro de que deseas eliminar el producto ${nombre}?`;
+
+        // Ajustar la acción del formulario para incluir el id en la ruta (seguro para binding)
+        var form = document.getElementById('deleteForm');
+        var base = form.dataset.baseAction || '';
+        form.action = base.endsWith('/') ? base + parsed : base + '/' + parsed;
+
+        console.debug('Delete form action:', form.action);
+
+        var modalEl = document.getElementById('deleteModal');
+        var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    });
+})();
+</script>
+}
 
 <!-- Estilos personalizados -->
 <style>

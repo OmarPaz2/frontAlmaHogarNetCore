@@ -212,6 +212,8 @@ namespace AlmaHogarFront.Controllers
                 _logger.LogInformation($"Cargando producto para editar: {id}");
 
                 var client = GetAuthorizedClient("SpringApi");
+
+                // 🔹 1. Obtener el producto por ID
                 var response = await client.GetAsync($"/producto/buscarIdProduct/{id}");
 
                 if (!response.IsSuccessStatusCode)
@@ -229,6 +231,34 @@ namespace AlmaHogarFront.Controllers
                     return NotFound();
                 }
 
+                // 🔹 2. Obtener TODOS los productos (para sacar categorías)
+                var responseProductos = await client.GetAsync("/producto/allProductos");
+
+                var categorias = new List<Categoria>();
+
+                if (responseProductos.IsSuccessStatusCode)
+                {
+                    var contentProductos = await responseProductos.Content.ReadAsStringAsync();
+                    var productos = JsonConvert.DeserializeObject<List<ProductoViewModel>>(contentProductos);
+
+                    // 🔹 3. Extraer categorías únicas
+                    // CAMBIO: No existe 'categoria' en ProductoViewModel, así que no se puede acceder así.
+                    // Debes obtener las categorías de otra manera, por ejemplo, desde un endpoint específico o usando los productos originales si tienen la propiedad.
+                    // Aquí se asume que necesitas obtener las categorías de los productos deserializados como 'Producto' (no 'ProductoViewModel').
+
+                    // Ejemplo de corrección:
+                    var productosOriginales = JsonConvert.DeserializeObject<List<Producto>>(contentProductos);
+                    categorias = productosOriginales?
+                        .Where(p => p.categoria != null)
+                        .Select(p => p.categoria)
+                        .GroupBy(c => c.codigo)
+                        .Select(g => g.First())
+                        .ToList() ?? new List<Categoria>();
+                }
+
+                // 🔹 4. Enviar categorías a la vista
+                ViewBag.Categorias = categorias;
+
                 _logger.LogInformation($"Producto cargado para editar: {producto.nombre}");
                 return View(producto);
             }
@@ -238,6 +268,7 @@ namespace AlmaHogarFront.Controllers
                 return RedirectToAction("Index");
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProductoViewModel productoViewModel)
