@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http.Headers;
+using AlmaHogarFront.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,9 @@ builder.Services.AddHttpClient("DotNetApi", client =>
         new MediaTypeWithQualityHeaderValue("application/json")
     );
 });
+
+// Registrar servicios
+builder.Services.AddScoped<IPromocionService, PromocionService>();
 
 builder.Services.AddSession(options =>
 {
